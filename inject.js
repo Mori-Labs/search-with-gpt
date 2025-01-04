@@ -1,5 +1,6 @@
 // Select the container with the specified class
-const targetContainer = document.querySelector('._prosemirror-parent_cy42l_1.text-token-text-primary.max-h-[25dvh].max-h-52.overflow-auto.default-browser');
+const targetContainer = document.querySelector('.flex.h-\\[44px\\].items-center.justify-between');
+
 
 if (targetContainer) {
   // Create the button

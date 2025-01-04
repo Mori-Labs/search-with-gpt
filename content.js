@@ -1,56 +1,63 @@
-// Listen for messages from the background script (to copy text to clipboard)
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    if (message.textToCopy) {
-      navigator.clipboard.writeText(message.textToCopy).then(() => {
-        console.log("Text copied to clipboard:", message.textToCopy);
-      });
-    }
-});
-
-// Function to add the button to the target container
 function addRecentSearchButton() {
-    // Use a class selector that matches part of the dynamic class
-    const targetContainer = document.querySelector("[class*='_prosemirror-parent_cy42l_1'][class*='text-token-text-primary'][class*='max-h-[25dvh]'][class*='max-h-52'][class*='overflow-auto'][class*='default-browser']");
-
-    if (targetContainer && !document.querySelector('#recent-search-btn')) {
-        // Create the button
-        const button = document.createElement('button');
+    const targetContainer = document.querySelector(".flex.gap-x-1");
+  
+    if (targetContainer) {
+      if (!document.querySelector("#recent-search-btn")) {
+        const button = document.createElement("button");
         button.textContent = "Get Recent Search";
-        button.id = "recent-search-btn"; // Add an ID to prevent duplicates
-        button.style.padding = "5px 10px";
-        button.style.backgroundColor = "#007bff";
-        button.style.color = "white";
-        button.style.border = "none";
-        button.style.borderRadius = "4px";
-        button.style.cursor = "pointer";
-        button.style.marginLeft = "10px";
-
-        // Add click event to the button
-        button.addEventListener('click', () => {
-            // Request the most recent search from the background script
-            chrome.runtime.sendMessage({ type: "getRecentSearch" }, (response) => {
-                if (response && response.recentSearch) {
-                    alert(`Recent Search: ${response.recentSearch}`);
-                } else {
-                    alert("No recent searches found!");
-                }
-            });
+        button.id = "recent-search-btn";
+  
+        // Style the button
+        Object.assign(button.style, {
+          backgroundColor: "transparent",
+          border: "2px solid white",
+          color: "white",
+          padding: "5px 15px",
+          fontSize: "14px",
+          borderRadius: "14px",
+          cursor: "pointer",
+          transition: "all 0.3s ease",
         });
-
-        // Append the button to the parent container
-        targetContainer.parentElement.appendChild(button);
+  
+        // Hover effects
+        button.addEventListener("mouseenter", () => {
+          button.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+        });
+        button.addEventListener("mouseleave", () => {
+          button.style.backgroundColor = "transparent";
+        });
+  
+        // Fetch and inject the recent search on click
+        button.addEventListener("click", () => {
+          chrome.storage.local.get(['searchQueue'], (result) => {
+            const searchQueue = result.searchQueue || [];
+            if (searchQueue.length > 0) {
+              const lastSearch = searchQueue[searchQueue.length - 1];
+              injectTextIntoInput(lastSearch);
+            } else {
+              alert("No recent searches found!");
+            }
+          });
+        });
+  
+        targetContainer.appendChild(button);
+      }
     }
-}
-
-// Monitor the page's DOM for changes and add the button when possible
-const observer = new MutationObserver(() => {
-    addRecentSearchButton(); // Attempt to add the button
-});
-
-// Start observing the entire body for changes
-observer.observe(document.body, { childList: true, subtree: true });
-
-// Also, attempt to add the button after the page finishes loading
-window.addEventListener('load', () => {
-    addRecentSearchButton();
-});
+  }
+  
+  function injectTextIntoInput(text) {
+    const inputElement = document.querySelector("textarea");
+  
+    if (inputElement) {
+      inputElement.focus();
+      document.execCommand("insertText", false, text);
+      console.log("Text injected successfully:", text);
+    } else {
+      console.error("Input field not found.");
+    }
+  }
+  
+  // Observe DOM changes and add the button
+  const observer = new MutationObserver(() => addRecentSearchButton());
+  observer.observe(document.body, { childList: true, subtree: true });
+  
