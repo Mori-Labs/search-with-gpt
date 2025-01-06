@@ -26,26 +26,15 @@ chrome.contextMenus.onClicked.addListener((info) => {
     chrome.storage.local.set({ searchQueue });
 
     chrome.tabs.query({}, (tabs) => {
-      const chatGPTTab = tabs.find((tab) =>
-        tab.url.startsWith("https://chat.openai.com")
-      );
-      if (chatGPTTab) {
-        chrome.tabs.update(chatGPTTab.id, { active: true });
-
-        chrome.scripting.executeScript({
-          target: { tabId: chatGPTTab.id },
-          func: (text) => {
-            const inputElement = document.querySelector("textarea");
-            if (inputElement) {
-              inputElement.value = text;
-              inputElement.dispatchEvent(new Event("input", { bubbles: true }));
-            }
-          },
-          args: [info.selectionText],
-        });
+      const gptTab = tabs.find((tab) => tab.url && tab.url.includes("chatgpt.com"));
+      if (gptTab) {
+        // If a GPT tab exists, switch to it
+        chrome.tabs.update(gptTab.id, { active: true });
       } else {
-        chrome.tabs.create({ url: "https://chat.openai.com" });
+        // If no GPT tab exists, create a new one
+        chrome.tabs.create({ url: "https://chatgpt.com/" });
       }
+
     });
   }
 });
