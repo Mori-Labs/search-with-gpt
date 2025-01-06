@@ -24,7 +24,6 @@ chrome.contextMenus.onClicked.addListener((info) => {
 
     // Save updated queue to storage
     chrome.storage.local.set({ searchQueue });
-
     chrome.tabs.query({}, (tabs) => {
       const gptTab = tabs.find((tab) => tab.url && tab.url.includes("chatgpt.com"));
       if (gptTab) {

@@ -9,7 +9,7 @@ function addRecentSearchButton() {
   
         // Style the button
         Object.assign(button.style, {
-          backgroundColor: "transparent",
+          backgroundColor: "#2F2F2F",
           border: "2px solid white",
           color: "white",
           padding: "5px 15px",
@@ -21,10 +21,10 @@ function addRecentSearchButton() {
   
         // Hover effects
         button.addEventListener("mouseenter", () => {
-          button.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+          button.style.backgroundColor = "rgba(33, 33, 33, 0.5)";
         });
         button.addEventListener("mouseleave", () => {
-          button.style.backgroundColor = "transparent";
+          button.style.backgroundColor = "#2F2F2F";
         });
   
         // Fetch and inject the recent search on click
@@ -51,7 +51,7 @@ function addRecentSearchButton() {
     if (inputElement) {
       inputElement.focus();
       document.execCommand("insertText", false, text);
-      console.log("Text injected successfully:", text);
+      // console.log("Text injected successfully:", text);
     } else {
       console.error("Input field not found.");
     }
