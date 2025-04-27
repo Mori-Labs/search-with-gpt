@@ -1,37 +1,43 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import './App.css';
 
 function App() {
+  const handleGitHubClick = () => {
+    window.open('https://github.com/Mori-Labs/search-with-gpt', '_blank');
+  };
+
   return (
-    <div style={{ padding: '2rem', fontFamily: 'Arial' }} className="container">
-      <h1>Search with GPT</h1>
-      <p>This Chrome Extension enhances your search engine with GPT-powered answers.</p>
+    <div className="makecenter">
+      <h1 className="title">Search with GPT</h1>
+      <div className="btns">
+        <button onClick={handleGitHubClick}>View on GitHub</button>
+      </div>
 
-      <h2>📦 Features</h2>
-      <ul>
-        <li>💡 Auto-generated GPT summaries</li>
-        <li>🌐 Works on Google, Bing, DuckDuckGo</li>
-        <li>⚡ Minimal UI and blazing fast</li>
-      </ul>
+      <div className="about-section">
+        <h3>About Search with GPT</h3>
+        <p>This Chrome Extension enhances your search engine with GPT-powered answers.</p>
+      </div>
 
-      <h2>📄 Documentation</h2>
-      <p>Learn how to install and use the extension below.</p>
+      <div className="installation-section">
+        <h3>Installation</h3>
+        <ol>
+          <li>Download the extension from GitHub.</li>
+          <li>Go to chrome://extensions.</li>
+          <li>Enable "Developer mode".</li>
+          <li>Click "Load unpacked" and select the project folder.</li>
+        </ol>
+      </div>
 
-      <h3>Installation</h3>
-      <ol>
-        <li>Download the extension from GitHub.</li>
-        <li>Go to chrome://extensions.</li>
-        <li>Enable "Developer mode".</li>
-        <li>Click "Load unpacked" and select the project folder.</li>
-      </ol>
+      <div className="documentation-section">
+        <h3>Documentation</h3>
+        <p>Learn how to install and use the extension below.</p>
+      </div>
 
-      <h3>🔗 GitHub Link</h3>
-      <a href="https://github.com/Mori-Labs/search-with-gpt" target="_blank">View on GitHub</a>
+      <div className="btns">
+        <button onClick={handleGitHubClick}>View on GitHub</button>
+      </div>
     </div>
   );
 }
 
 export default App;
-
