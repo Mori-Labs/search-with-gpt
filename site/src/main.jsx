@@ -5,11 +5,13 @@ import App from './App.jsx'
 import Header from './Header.jsx'
 import Footer from './Footer.jsx'
 import GIF from './GIF.jsx'
+import Features from './Features.jsx'
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Header />
     <GIF />
     <App />
+    <Features />
     <Footer />
   </StrictMode>,
 )
